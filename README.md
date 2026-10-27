@@ -1,26 +1,77 @@
-# Data
+# Open-Ended Evolution of Public Interest
 
-This folder holds the Google Trends CSV exports used by `Google_Trends_OEE_Analysis.ipynb`.
-They are not included in the repository (Google Trends' terms discourage mass redistribution of raw exports); reproduce them directly from Google Trends:
+Code and analysis for *Open-Ended Evolution of Public Interest: A Longitudinal Computational Analysis Using Google Trends Data, 2004–2025* — an MSc dissertation (Aston University, 2026) testing whether public search interest in technology topics behaves as an open-ended evolutionary system, following the criteria of Packard et al. (2019).
 
-1. Go to https://trends.google.com/trends/explore
-2. Search for each topic below, one at a time
-3. Set the date range to **1/1/2004 – 12/31/2025**
-4. Set region to **Worldwide**
-5. Download the CSV ("Interest over time" panel, download icon)
-6. Save it under the exact filename below (the notebook reads these names directly)
+**Paper draft:** [link to arXiv preprint — add once posted]
+**Dissertation:** Kolakaluri, S. (2026). *Open-Ended Evolution of Public Interest.* MSc dissertation, Aston University. Supervised by Dr James M. Borg.
 
-| Topic | Expected filename |
+## Summary
+
+Using 21 years of worldwide Google Trends data (2004–2025) for ten technology topics, this analysis applies:
+
+- **Shannon Entropy** as a measure of diversity of public attention across topics each year
+- A **novelty-detection algorithm**, flagging a topic as novel when its interest crosses a threshold having been near-zero in every prior year
+
+**Headline results** (full ten-topic set):
+
+| Metric | Result |
 |---|---|
-| Artificial Intelligence | `multiTimeline(AI).csv` |
-| Blockchain | `multiTimeline(BC).csv` |
-| Machine Learning | `multiTimeline(ML).csv` |
-| Virtual Reality | `multiTimeline(VR).csv` |
-| Cryptocurrency | `multiTimeline(CC).csv` |
-| Cybersecurity | `multiTimeline(CS).csv` |
-| NFT | `multiTimeline(NFT).csv` |
-| Metaverse | `multiTimeline(MV).csv` |
-| ChatGPT | `multiTimeline(CG).csv` |
-| Cloud Computing | `multiTimeline(CCM).csv` |
+| Shannon Entropy, 2004 → 2023 peak | 1.03 → 2.21 (+115%), 96% of theoretical maximum ln(10) ≈ 2.30 |
+| Novelty events detected | 2017 (Blockchain, Cryptocurrency), 2021 (NFT, Metaverse), 2023 (ChatGPT) |
+| Saturation | None detected through 2025 |
 
-Each CSV has one header row (skipped by the notebook via `skiprows=1`) followed by `Month, <search interest 0-100>` rows.
+These results are consistent with all three OEE criteria proposed by Packard et al. (2019): ongoing novelty generation, increasing diversity over time, and no fixed upper bound on diversity.
+
+## Repository structure
+
+```
+.
+├── Google_Trends_OEE_Analysis.ipynb   Main analysis notebook (run top to bottom)
+├── data/                               Google Trends CSV exports (see data/README.md)
+├── outputs/                            Generated charts (created when the notebook runs)
+├── requirements.txt                    Python dependencies
+├── LICENSE                             MIT License
+└── README.md                           This file
+```
+
+## Reproducing the analysis
+
+1. Clone the repository and install dependencies:
+   ```bash
+   git clone https://github.com/sivaiah-kolakaluri/oee-public-interest-google-trends.git
+   cd oee-public-interest-google-trends
+   pip install -r requirements.txt
+   ```
+2. Place the Google Trends CSV exports in `data/` (see `data/README.md` for exact export settings — worldwide scope, monthly resolution, 2004–2025, one file per topic).
+3. Run `Google_Trends_OEE_Analysis.ipynb` top to bottom in Jupyter.
+
+The notebook has two parts: a preliminary 5-topic validation pass (Part A), and the full 10-topic analysis reported in the paper (Part B).
+
+## Method notes
+
+- Google Trends scores are **relative** (0–100 within the selected time range and region), not absolute search volumes.
+- The main analysis uses `fillna(0)` rather than `dropna()` when merging topics that emerged partway through the window: a term that had not yet been coined (e.g. "ChatGPT" before November 2022) genuinely has zero search interest, not missing data. An earlier version of this pipeline used `dropna()`, which discarded every month where any later-emerging topic lacked a value, artificially flattening the early entropy curve — see the dissertation's methodology section for the full discussion.
+- Novelty thresholds (current-year average > 10, all prior years < 2) were agreed with the dissertation supervisor as a conservative, asymmetric rule that avoids flagging topics that merely fluctuate at moderate levels.
+
+## Citation
+
+If you use this code or build on this analysis, please cite:
+
+```bibtex
+@mastersthesis{kolakaluri2026oee,
+  author = {Kolakaluri, Sivaiah},
+  title  = {Open-Ended Evolution of Public Interest: A Longitudinal Computational
+            Analysis Using Google Trends Data, 2004--2025},
+  school = {Aston University},
+  year   = {2026}
+}
+```
+
+## License
+
+MIT — see [LICENSE](LICENSE).
+
+## Contact
+
+Sivaiah Kolakaluri — ksivaiahk@gmail.com
+MSc Artificial Intelligence, Aston University
