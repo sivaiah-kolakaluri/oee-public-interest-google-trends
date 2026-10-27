@@ -24,3 +24,5 @@ They are not included in the repository (Google Trends' terms discourage mass re
 | Cloud Computing | `multiTimeline(CCM).csv` |
 
 Each CSV has one header row (skipped by the notebook via `skiprows=1`) followed by `Month, <search interest 0-100>` rows.
+
+Note: the notebook itself trims every series to 1 Jan 2004 – 31 Dec 2025 before analysis (see the main `README.md`'s Method notes), so a CSV exported with a wider date range than requested above is not a problem — any months outside the documented window are dropped automatically rather than silently included.

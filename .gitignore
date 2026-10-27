@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project-specific: raw Google Trends exports (not redistributed, see
+# data/README.md) and generated chart outputs (recreated by the notebook)
+data/*.csv
+outputs/*.png
+!outputs/.gitkeep

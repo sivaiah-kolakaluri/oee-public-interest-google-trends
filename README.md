@@ -52,6 +52,11 @@ The notebook has two parts: a preliminary 5-topic validation pass (Part A), and 
 - Google Trends scores are **relative** (0–100 within the selected time range and region), not absolute search volumes.
 - The main analysis uses `fillna(0)` rather than `dropna()` when merging topics that emerged partway through the window: a term that had not yet been coined (e.g. "ChatGPT" before November 2022) genuinely has zero search interest, not missing data. An earlier version of this pipeline used `dropna()`, which discarded every month where any later-emerging topic lacked a value, artificially flattening the early entropy curve — see the dissertation's methodology section for the full discussion.
 - Novelty thresholds (current-year average > 10, all prior years < 2) were agreed with the dissertation supervisor as a conservative, asymmetric rule that avoids flagging topics that merely fluctuate at moderate levels.
+- The notebook trims every loaded series to the documented analysis window (1 Jan 2004 – 31 Dec 2025) before computing entropy or running novelty detection. This is explicit in the code rather than left to the Google Trends export settings alone, so the reported period holds even if a CSV is (re)downloaded later with a wider default range. It also creates `outputs/` on first run if the folder isn't already there, so the notebook runs top to bottom on a fresh clone with no manual setup.
+
+## Reproducibility notes (verified)
+
+The full pipeline was re-run end to end against the original ten Google Trends CSVs, starting from a fresh clone of this repository: `pip install -r requirements.txt`, the ten files placed under `data/` with the exact filenames in `data/README.md`, then `Google_Trends_OEE_Analysis.ipynb` executed top to bottom with no manual intervention. It reproduced the entropy values and all seven novelty-flagged topic-years reported in the paper (2008, 2017, 2018, 2021, 2022, 2023, 2024), confirming the published notebook is self-contained and reproducible as described.
 
 ## Citation
 
