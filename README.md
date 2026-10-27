@@ -17,7 +17,7 @@ Using 21 years of worldwide Google Trends data (2004–2025) for ten technology 
 | Metric | Result |
 |---|---|
 | Shannon Entropy, 2004 → 2023 peak | 1.03 → 2.21 (+115%), 96% of theoretical maximum ln(10) ≈ 2.30 |
-| Novelty events detected | 2017 (Blockchain, Cryptocurrency), 2021 (NFT, Metaverse), 2023 (ChatGPT) |
+| Novelty events detected | Four first-emergence events from near-zero prior interest — 2008 (Cloud Computing), 2017 (Blockchain, Cryptocurrency), 2021 (NFT, Metaverse), 2023 (ChatGPT) — plus three repeated crossings the following year as each emergence continued to build (2018, 2022, 2024) |
 | Saturation | None detected through 2025 |
 
 These results are consistent with all three OEE criteria proposed by Packard et al. (2019): ongoing novelty generation, increasing diversity over time, and no fixed upper bound on diversity.
