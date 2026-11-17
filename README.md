@@ -7,7 +7,7 @@ Code and analysis for *Open-Ended Evolution of Public Interest: A Longitudinal C
 
 ## Summary
 
-Using 21 years of worldwide Google Trends data (2004–2025) for ten technology topics, this analysis applies:
+Using 22 years of worldwide Google Trends data (January 2004 – December 2025) for ten technology topics, this analysis applies:
 
 - **Shannon Entropy** as a measure of diversity of public attention across topics each year
 - A **novelty-detection algorithm**, flagging a topic as novel when its interest crosses a threshold having been near-zero in every prior year
@@ -20,7 +20,7 @@ Using 21 years of worldwide Google Trends data (2004–2025) for ten technology 
 | Novelty events detected | Four first-emergence events from near-zero prior interest — 2008 (Cloud Computing), 2017 (Blockchain, Cryptocurrency), 2021 (NFT, Metaverse), 2023 (ChatGPT) — plus three repeated crossings the following year as each emergence continued to build (2018, 2022, 2024) |
 | Saturation | None detected through 2025 |
 
-These results are consistent with all three OEE criteria proposed by Packard et al. (2019): ongoing novelty generation, increasing diversity over time, and no fixed upper bound on diversity.
+These results are provisionally consistent with two of the three OEE criteria proposed by Packard et al. (2019) - ongoing novelty generation and increasing diversity over time - while the third, no fixed upper bound on diversity, is explicitly reported as not established: a finite observation window, and a fixed ten-topic measurement instrument, cannot demonstrate the absence of a ceiling. See the paper's Table 3 and Limitations section for the full evaluation, including why these findings should be read as exploratory rather than statistically validated (no null-model comparison has yet been performed) and why the ten topics' individually-normalised Google Trends scores are not strictly comparable to one another.
 
 ## Repository structure
 
@@ -54,9 +54,13 @@ The notebook has two parts: a preliminary 5-topic validation pass (Part A), and 
 - Novelty thresholds (current-year average > 10, all prior years < 2) were agreed with the dissertation supervisor as a conservative, asymmetric rule that avoids flagging topics that merely fluctuate at moderate levels.
 - The notebook trims every loaded series to the documented analysis window (1 Jan 2004 – 31 Dec 2025) before computing entropy or running novelty detection. This is explicit in the code rather than left to the Google Trends export settings alone, so the reported period holds even if a CSV is (re)downloaded later with a wider default range. It also creates `outputs/` on first run if the folder isn't already there, so the notebook runs top to bottom on a fresh clone with no manual setup.
 
-## Reproducibility notes (verified)
+## Reproducibility notes (author-verified)
 
-The full pipeline was re-run end to end against the original ten Google Trends CSVs, starting from a fresh clone of this repository: `pip install -r requirements.txt`, the ten files placed under `data/` with the exact filenames in `data/README.md`, then `Google_Trends_OEE_Analysis.ipynb` executed top to bottom with no manual intervention. It reproduced the entropy values and all seven novelty-flagged topic-years reported in the paper (2008, 2017, 2018, 2021, 2022, 2023, 2024), confirming the published notebook is self-contained and reproducible as described.
+The full pipeline was re-run end to end against the original ten Google Trends CSVs, starting from a fresh clone of this repository: `pip install -r requirements.txt`, the ten files placed under `data/` with the exact filenames in `data/README.md`, then `Google_Trends_OEE_Analysis.ipynb` executed top to bottom with no manual intervention. It reproduced the entropy values and all ten novelty-flagged topic-year combinations reported in the paper's Table 2 (2008, 2017 x2, 2018, 2021 x2, 2022 x2, 2023, 2024 - seven flagged years, six distinct topics, four first-emergence episodes), confirming the published notebook is self-contained and runs as described.
+
+This check was performed by the authors, not by an independent third party: because Google's terms discourage redistributing raw Trends exports, the CSVs themselves are not included in this repository, so an outside reviewer currently has to re-download them (per `data/README.md`) before they can verify the pipeline end to end for themselves.
+
+A separate epsilon-sensitivity check confirmed that the small constant added before normalising each year's values (`epsilon = 1e-4`, used to avoid `log(0)`) changes the reported entropy by at most 0.0003 in any single year across epsilon values spanning six orders of magnitude (1e-4 to 1e-10) - including years where up to six of the ten topics had zero recorded interest - well below the two-decimal precision reported in the paper.
 
 ## Citation
 
